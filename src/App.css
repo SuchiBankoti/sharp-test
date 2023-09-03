@@ -1,0 +1,38 @@
+*{
+    text-transform: capitalize;
+}
+.Overlay{
+    width: 100vw;
+    height: 100vh;
+    background-color:black;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.Cart{
+    width: 500px;
+    height: 800px;
+    z-index: 2;
+    position: absolute;
+    top:50px;
+    left: 100px;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+}
+.cartBox{
+    border: 1px dotted black;
+    display: flex;
+}
+.Product{
+    display: flex;
+    border: 1px dotted black;
+}
+.Product>div{
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

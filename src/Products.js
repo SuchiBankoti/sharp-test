@@ -1,24 +1,53 @@
-import React, { useContext } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { dataContext } from "./ContextStore/Context";
-
+const api = "https://crudcrud.com/api/f37946aaa4a342888f2d1fac93833c72";
 export default function Products(){
     const { products, AddToCart } = useContext(dataContext)
-    
+    const[allProducts,setAllProducts]=useState(products)
+    useEffect(() => {
+        async function getProducts(){
+            const res = await fetch(`${api}/products`)
+            const data =await res.json()
+            console.log(data)
+            setAllProducts(data)
+        }
+        getProducts()
+    }, [products])
     
     return (
-        <div>
-            {products.map((product,i) => {
+        <div >
+            {allProducts.map((product,i) => {
                 return (
-                    <div key={i}>
-                        <h3>{product.name}</h3>
-                        <p>{product.description}</p>
-                        <h4>{product.price}</h4>
-                        <div><button onClick={()=>{AddToCart("small",product.id,product)}}>Buy Small</button><p>{product.small}</p></div>
-                        <div><button  onClick={()=>{AddToCart("medium",product.id,product)}}>Buy Medium</button><p>{product.medium}</p></div>
-                        <div><button  onClick={()=>{AddToCart("large",product.id,product)}}>Buy Large</button><p>{product.large}</p></div>
-                    </div>
+                    <li key={i} className="Product">
+                        <h3>Name: {product.name}</h3>
+                        <p>About: {product.description}</p>
+                        <h4>Price: {product.price}</h4>
+                        <div><button onClick={() => {
+                            if(product.small>0){
+                                AddToCart("small", product.id, product)
+                            } else {
+                                alert("product is out of stock")
+                            }
+                        }}>Buy Small</button>{product.small > 0 ? <p>{product.small}</p> : <p>Out of stock</p>}</div>
+                        <div><button onClick={() => {
+                            if (product.medium > 0) {
+                                AddToCart("medium", product.id, product)
+                            }else {
+                                alert("product is out of stock")
+                            }
+                        }}>Buy Medium</button>{product.medium > 0 ? <p>{product.medium}</p> : <p>Out of stock</p>}</div>
+                        <div><button onClick={() => {
+                            if (product.large > 0) {
+                                AddToCart("large", product.id, product)
+                            }else {
+                                alert("product is out of stock")
+                            }
+                        }}>Buy Large</button>{product.large > 0 ? <p>{product.large}</p> : <p>Out of stock</p>}</div>
+                    </li>
                 )
             })}
         </div>
     )
 }
+
+

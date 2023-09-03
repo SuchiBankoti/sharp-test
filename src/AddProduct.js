@@ -4,9 +4,7 @@ import { dataContext } from "./ContextStore/Context";
 
 export default function AddProduct() {
     const{addProduct}=useContext(dataContext)
-    // get add product function from redux store which add form dtaat to crud crud and upate product state which calls useefefct to fetch daat from crud crid
     const [formData, setFormData] = useState({
-        id:nanoid(),
         name: "",
         description: "",
         price: 0,
@@ -15,7 +13,11 @@ export default function AddProduct() {
         large:0
     })
     const handleDataChange = (e) => {
-    setFormData(prev=>({...prev,[e.target.name]:e.target.value}))
+        if (e.target.value < 0) {
+            alert("please enter a positive value")
+        } else {
+            setFormData(prev=>({...prev,[e.target.name]:e.target.value}))
+        }
 }
     return (
         <div>
@@ -33,7 +35,7 @@ export default function AddProduct() {
                 <label>Large</label>
                 <input name="large" type="number" value={formData.large} onChange={handleDataChange} />
             </form>
-            <button onClick={()=>addProduct(formData)}>Add Product</button>
+            <button onClick={() => addProduct({ ...formData, id: nanoid() })}>Add Product</button>
         </div>
     )
 }
